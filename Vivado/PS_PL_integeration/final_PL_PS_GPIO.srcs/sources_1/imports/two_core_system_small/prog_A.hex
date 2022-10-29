@@ -1,0 +1,55 @@
+03c00113 //  li	sp,60
+09c0006f //  j	24a90 <main>
+fd010113 //  addi	sp,sp,-48
+02812623 //  sw	s0,44(sp)
+03010413 //  addi	s0,sp,48
+fca42e23 //  sw	a0,-36(s0)
+fcb42c23 //  sw	a1,-40(s0)
+fe042623 //  sw	zero,-20(s0)
+0600006f //  j	24a70 <arrays+0x78>
+fe042423 //  sw	zero,-24(s0)
+0400006f //  j	24a58 <arrays+0x60>
+fe842783 //  lw	a5,-24(s0)
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f707b3 //  add	a5,a4,a5
+0007a683 //  lw	a3,0(a5)
+fe842783 //  lw	a5,-24(s0)
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f707b3 //  add	a5,a4,a5
+fec42703 //  lw	a4,-20(s0)
+00e68733 //  add	a4,a3,a4
+00e7a023 //  sw	a4,0(a5)
+fe842783 //  lw	a5,-24(s0)
+00178793 //  addi	a5,a5,1
+fef42423 //  sw	a5,-24(s0)
+fe842703 //  lw	a4,-24(s0)
+00300793 //  li	a5,3
+fae7dee3 //  bge	a5,a4,24a1c <arrays+0x24>
+fec42783 //  lw	a5,-20(s0)
+00178793 //  addi	a5,a5,1
+fef42623 //  sw	a5,-20(s0)
+fec42703 //  lw	a4,-20(s0)
+fd842783 //  lw	a5,-40(s0)
+f8f74ee3 //  blt	a4,a5,24a14 <arrays+0x1c>
+00000013 //  nop
+00000013 //  nop
+02c12403 //  lw	s0,44(sp)
+03010113 //  addi	sp,sp,48
+00008067 //  ret
+ff010113 //  addi	sp,sp,-16
+00112623 //  sw	ra,12(sp)
+00812423 //  sw	s0,8(sp)
+01010413 //  addi	s0,sp,16
+00a00593 //  li	a1,10
+fffdc517 //  auipc	a0,0xfffdc
+55c50513 //  addi	a0,a0,1372 # 1000 <arr1>
+f4dff0ef //  jal	ra,249f8 <arrays>
+00000793 //  li	a5,0
+00078513 //  mv	a0,a5
+00c12083 //  lw	ra,12(sp)
+00812403 //  lw	s0,8(sp)
+01010113 //  addi	sp,sp,16
+00000013  //NOP
+0000006f  // J -4
