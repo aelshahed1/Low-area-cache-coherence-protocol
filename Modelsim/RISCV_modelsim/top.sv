@@ -1,0 +1,110 @@
+timeunit 1ns; timeprecision 100ps;
+module top #( parameter n = 32)  
+
+(input logic clk, reset,
+input logic L1_busy, //clock_enable for L1_cahce
+output program_done //clock_enable for L1_cahce
+); 
+
+//ALU Signals
+logic [3:0] alu_func; 
+logic [n-1:0] multiplexed_a,multiplexed_b,ALU_result;
+logic op1_pc,op1_ZERO;
+logic [2:0] op2_immediate;
+
+// Program Counter signals
+localparam pc_size = 32; 
+logic [1:0] pc_select;
+logic [pc_size-1 : 0] pc_next,pc_plus_four_next; //output of pc into instmem
+logic branch_instruction;
+
+// Instruction Memory signals
+localparam Isize = 32; // Isize - instruction width
+localparam mem_size = 10; //instruction memory address width (could store 2^mem_size instructions)
+logic [Isize-1:0] instruction_next; // I - instruction code
+
+//comparator signals
+logic eq,lt,ltu;
+
+//register file signals
+logic [n-1:0] data1,data2;
+logic [2:0] write_sel;
+
+//data memory signals
+logic [2:0] load_control;
+logic [1:0] store_control;
+logic [31:0] dmem_rdata;
+localparam dmem_size = 7;
+
+//instruction register signals
+logic [Isize-1:0] instruction;
+logic [pc_size-1 : 0] pc_plus_four;
+logic [pc_size-1 : 0] pc;
+
+// module instantiations
+instr_mem #(.mem_size(mem_size),.Isize(Isize)) //program memory instantiation 
+      instrMEMORY (.address(pc_next),.instruction(instruction_next));
+	  
+instr_reg #(.n(n)) I_reg (.clk(clk), .reset(reset),
+			.instruction_next(instruction_next),.branch_instruction(branch_instruction),
+			.instruction(instruction),.pc_plus_four_next(pc_plus_four_next),
+			.pc_plus_four(pc_plus_four), .pc(pc), .pc_next(pc_next)); 
+	  
+program_counter  #(.pc_size(pc_size)) progCounter (.clk(clk),.reset(reset), //program counter instantiation  
+        .pc_select(pc_select), .L1_busy(L1_busy),
+        .alu_result(ALU_result), .branch_instruction(branch_instruction),
+		//.jal_address({{12{instruction_next[31]}},instruction_next[19:12],instruction_next[20],instruction_next[30:21],1'b0}),		
+		.jal_address({{12{instruction[31]}},instruction[19:12],instruction[20],instruction[30:21],1'b0}),
+		.pc_next(pc_next), .pc_plus_four_next(pc_plus_four_next) );
+
+alu    #(.n(n))  ALU(.a(multiplexed_a),.b(multiplexed_b), //alu instantiation 
+       .func(alu_func), .result(ALU_result)); 
+
+comparator #(.n(n)) comp1(.a(data1),.b(data2),.eq(eq),.lt(lt),.ltu(ltu));
+
+reg_file   #(.n(n))  regs(.clk(clk),.pc_plus_four(pc_plus_four), //register file instantiation
+        .wdata(ALU_result),.external_input(dmem_rdata), .write_sel(write_sel),
+		.rs1(instruction[19:15]),  // source 1 register
+		.rs2(instruction[24:20]),  // source 2 register
+		.rd(instruction[11:7]), // destination register
+        .data1(data1),.data2(data2));
+
+decoder  Decoder (.opcode(instruction[6:0]),.eq(eq),.lt(lt),.ltu(ltu), //decoder instantiation
+            .functs({instruction[31:25],instruction[14:12]}),
+		  .alu_func(alu_func),.pc_sel(pc_select), .op2_immediate(op2_immediate),
+		  .wdata_sel(write_sel),.op1_pc(op1_pc),.op1_ZERO(op1_ZERO),.store_control(store_control),
+		  .load_control(load_control),.program_done(program_done));		
+
+//data_mem #(.n(n),.dmem_size(dmem_size)) data_memory (.clk(clk),.dmem_wdata(data2),.address(wdata[dmem_size+1:2]),
+data_mem #(.n(n),.dmem_size(dmem_size)) data_memory (.clk(clk),.dmem_wdata(data2),.address(ALU_result[16:2]),
+			.load_control(load_control),.store_control(store_control),.dmem_rdata(dmem_rdata));		  
+		
+//assign multiplexed_b = (op2_immediate ? {{21{instruction[31]}},instruction[30:20]} : data2); //multiplexing b input to alu from immediate and register file
+//assign multiplexed_a = (op1_pc? pc : (op1_ZERO? 32'd0 : data1));		
+
+always_comb begin
+if(op2_immediate == 3'b001)
+	multiplexed_b = {{21{instruction[31]}},instruction[30:20]};
+else if(op2_immediate == 3'b010)
+	multiplexed_b = {{21{instruction[31]}},instruction[30:25],instruction[11:7]};
+else if(op2_immediate == 3'b011)
+	multiplexed_b = {instruction[31:12],{12{1'b0}}};
+else if(op2_immediate == 3'b100)
+	multiplexed_b = {{20{instruction[31]}},instruction[7],instruction[30:25],instruction[11:8],1'b0};
+else	
+	multiplexed_b = data2;	
+end
+
+always_comb begin
+if(op1_pc)
+	multiplexed_a = pc;
+else if(op1_ZERO)
+	multiplexed_a = 32'd0;
+else	
+	multiplexed_a = data1;	
+end
+
+		
+endmodule
+
+

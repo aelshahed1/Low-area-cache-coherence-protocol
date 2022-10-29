@@ -1,0 +1,100 @@
+10000113 //  li	sp,256
+1000006f //  j	104 <main>
+fd010113 //  addi	sp,sp,-48
+02812623 //  sw	s0,44(sp)
+03010413 //  addi	s0,sp,48
+fca42e23 //  sw	a0,-36(s0)
+fcb42c23 //  sw	a1,-40(s0)
+fd842783 //  lw	a5,-40(s0)
+fff78793 //  addi	a5,a5,-1
+fef42623 //  sw	a5,-20(s0)
+0c00006f //  j	e8 <BubbleSort+0xe0>
+fe042423 //  sw	zero,-24(s0)
+0a00006f //  j	d0 <BubbleSort+0xc8>
+fe842783 //  lw	a5,-24(s0)
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f707b3 //  add	a5,a4,a5
+0007a703 //  lw	a4,0(a5)
+fe842783 //  lw	a5,-24(s0)
+00178793 //  addi	a5,a5,1
+00279793 //  slli	a5,a5,0x2
+fdc42683 //  lw	a3,-36(s0)
+00f687b3 //  add	a5,a3,a5
+0007a783 //  lw	a5,0(a5)
+06e7d263 //  bge	a5,a4,c4 <BubbleSort+0xbc>
+fe842783 //  lw	a5,-24(s0)
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f707b3 //  add	a5,a4,a5
+0007a783 //  lw	a5,0(a5)
+fef42223 //  sw	a5,-28(s0)
+fe842783 //  lw	a5,-24(s0)
+00178793 //  addi	a5,a5,1
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f70733 //  add	a4,a4,a5
+fe842783 //  lw	a5,-24(s0)
+00279793 //  slli	a5,a5,0x2
+fdc42683 //  lw	a3,-36(s0)
+00f687b3 //  add	a5,a3,a5
+00072703 //  lw	a4,0(a4)
+00e7a023 //  sw	a4,0(a5)
+fe842783 //  lw	a5,-24(s0)
+00178793 //  addi	a5,a5,1
+00279793 //  slli	a5,a5,0x2
+fdc42703 //  lw	a4,-36(s0)
+00f707b3 //  add	a5,a4,a5
+fe442703 //  lw	a4,-28(s0)
+00e7a023 //  sw	a4,0(a5)
+fe842783 //  lw	a5,-24(s0)
+00178793 //  addi	a5,a5,1
+fef42423 //  sw	a5,-24(s0)
+fe842703 //  lw	a4,-24(s0)
+fec42783 //  lw	a5,-20(s0)
+f4f74ee3 //  blt	a4,a5,34 <BubbleSort+0x2c>
+fec42783 //  lw	a5,-20(s0)
+fff78793 //  addi	a5,a5,-1
+fef42623 //  sw	a5,-20(s0)
+fec42783 //  lw	a5,-20(s0)
+f407d0e3 //  bgez	a5,2c <BubbleSort+0x24>
+00000013 //  nop
+00000013 //  nop
+02c12403 //  lw	s0,44(sp) //BubbleSort Program
+03010113 //  addi	sp,sp,48
+00008067 //  ret
+fc010113 //  addi	sp,sp,-64
+02112e23 //  sw	ra,60(sp)
+02812c23 //  sw	s0,56(sp)
+04010413 //  addi	s0,sp,64
+00001797 //  auipc	a5,0x1
+eec78793 //  addi	a5,a5,-276 # 1000 <main+0xefc>
+0007ae03 //  lw	t3,0(a5)
+0047a303 //  lw	t1,4(a5)
+0087a883 //  lw	a7,8(a5)
+00c7a803 //  lw	a6,12(a5)
+0107a503 //  lw	a0,16(a5)
+0147a583 //  lw	a1,20(a5)
+0187a603 //  lw	a2,24(a5)
+01c7a683 //  lw	a3,28(a5)
+0207a703 //  lw	a4,32(a5)
+0247a783 //  lw	a5,36(a5)
+fdc42423 //  sw	t3,-56(s0)
+fc642623 //  sw	t1,-52(s0)
+fd142823 //  sw	a7,-48(s0)
+fd042a23 //  sw	a6,-44(s0)
+fca42c23 //  sw	a0,-40(s0)
+fcb42e23 //  sw	a1,-36(s0)
+fec42023 //  sw	a2,-32(s0)
+fed42223 //  sw	a3,-28(s0)
+fee42423 //  sw	a4,-24(s0)
+fef42623 //  sw	a5,-20(s0)
+fc840793 //  addi	a5,s0,-56
+00a00593 //  li	a1,10
+00078513 //  mv	a0,a5
+e91ff0ef //  jal	ra,8 <BubbleSort>
+00000793 //  li	a5,0
+00078513 //  mv	a0,a5
+03c12083 //  lw	ra,60(sp)
+03812403 //  lw	s0,56(sp)
+04010113 //  addi	sp,sp,64

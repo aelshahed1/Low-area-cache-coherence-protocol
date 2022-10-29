@@ -1,0 +1,84 @@
+# ModelSim command script rs_flipflop.vsim
+
+# Open new waveform window
+
+vsim -voptargs="+acc" work.system_tb
+
+  view wave -undock
+
+# Probe primary I/O
+
+ 
+  #add wave my_system/*
+  
+   add wave -label "clk" clk
+   add wave -label "reset" reset
+   
+  
+  
+ 
+  
+ # add wave -label "MM_state" my_system/my_main_memory.state
+ 
+  add wave -label "L1_state" my_system/L1_cache_memory.state
+  add wave -label "L1_busy" my_system/L1_busy
+  
+  add wave -label "L2_state" my_system/L2_cache_memory.state
+  add wave -label "L2_busy" -color "light blue" my_system/L2_busy 
+ 
+ # add wave -label "MM_busy" my_system/MM_busy
+  
+   
+   
+   
+   #add wave -label "gpr" my_system/riscv_core/regs/gpr
+		
+		add wave -label "LOAD" my_system/load_control
+		add wave -label "STOE" my_system/store_control
+	   
+	   add wave -label "dmem_word_address" -radix unsigned my_system/L1_cache_memory/dmem_word_address
+	   add wave -label "dmem_write_word" -radix unsigned system_tb/my_system/L1_cache_memory/dmem_wdata
+		
+	   add wave -label "L1 cache memory" system_tb/my_system/L1_cache_memory/L1_cache_memory
+	   
+	   add wave -label "L2_read_request" my_system/L1_cache_memory.L2_read_request
+	   add wave -label "L2_write_request" my_system/L1_cache_memory.L2_write_request
+	   
+	   add wave -label "L2_word_address" -radix unsigned my_system/L1_cache_memory.L2_word_address
+	   add wave -label "L2_write_word" -radix unsigned my_system/L1_cache_memory.L2_write_word
+	   
+	   add wave -label "L2 cache memory" system_tb/my_system/L2_cache_memory/L2_cache_memory
+	   
+	   add wave -label "MM_read_request" my_system/L2_cache_memory.MM_read_request
+       add wave -label "MM_write_request" my_system/L2_cache_memory.MM_write_request
+	   
+	   add wave -label "MM_word_address" -radix unsigned my_system/L2_cache_memory/MM_word_address
+	   add wave -label "MM_write_word" -radix unsigned my_system/L2_cache_memory/MM_write_word
+	   
+	   add wave -label "RAM" my_system/my_main_memory/ram
+	   
+	   add wave -label "instruction" my_system/riscv_core/instruction
+
+	   add wave -label "dmem_word_address" -radix unsigned my_system/L1_cache_memory/dmem_word_address
+	   add wave -label "dmem_read_word" -radix unsigned system_tb/my_system/L1_cache_memory/dmem_rdata
+
+
+#L2 cache refill debug
+
+   add wave -label "L2 cache memory" system_tb/my_system/L2_cache_memory/L2_cache_memory
+	  
+  add wave -label "L2_state" my_system/L2_cache_memory.state
+  
+  	   add wave -label "MM_read_request" my_system/L2_cache_memory.MM_read_request
+
+	   add wave -label "L2 refill_counter" -radix unsigned my_system/L2_cache_memory/refill_counter	
+	   add wave -label "MM_read_word"  my_system/L2_cache_memory/MM_read_word
+
+ #run
+ #run
+ #run
+ #run
+ #run
+ #run
+  run -all
+  wave zoom full

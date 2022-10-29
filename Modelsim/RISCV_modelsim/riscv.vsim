@@ -1,0 +1,28 @@
+# ModelSim command script rs_flipflop.vsim
+
+# Open new waveform window
+
+  view wave -undock
+
+# Probe primary I/O
+
+  add wave -label "clk" clk
+  add wave -label "reset" reset
+  
+  add wave -label "pc_select" riscv/pc_select
+  add wave -label "branch_instruction" riscv/branch_instruction
+  
+  add wave -label "pc_next" riscv/pc_next
+  add wave -label "pc" riscv/pc
+  
+  add wave -label "instruction_next" riscv/instruction_next
+  add wave -label "instruction" riscv/instruction  
+
+  add wave -label "gpr" riscv/regs/gpr
+  
+
+  add wave -label "pc_plus_four_next" riscv/pc_plus_four_next
+  add wave -label "pc_plus_four" riscv/pc_plus_four
+ 
+  run -all
+  wave zoom full
