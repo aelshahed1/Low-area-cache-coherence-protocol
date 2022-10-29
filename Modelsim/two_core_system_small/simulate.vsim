@@ -1,0 +1,132 @@
+# ModelSim command script rs_flipflop.vsim
+
+# Open new waveform window
+
+vsim -voptargs="+acc" work.system_tb -suppress 8604
+
+  view wave -undock
+
+# Probe primary I/O
+
+ 
+  #add wave my_system/*
+  
+   add wave -label "clk" clk
+   add wave -label "reset" reset
+   
+ 
+  add wave -label "L1A_state" my_system/L1A_cache_memory/state
+  add wave -label "L1A_busy" my_system/L1_busy_A
+  
+  add wave -label "L1B_state" my_system/L1B_cache_memory/state
+  add wave -label "L1B_busy" my_system/L1_busy_B
+  
+  add wave -label "L2_state" my_system/L2_cache_memory.state
+  add wave -label "L2_busy_in" -color "light blue" my_system/L2_busy 
+ 
+  add wave -label "L2_busy_A" my_system/L2_busy_A
+  add wave -label "L2_busy_B" my_system/L2_busy_B
+
+   
+		
+		#add wave -label "LOAD_A" my_system/load_control_A
+		#add wave -label "STOE_A" my_system/store_control_A
+		
+		add wave -label "LOAD_B" my_system/load_control_B
+		add wave -label "STOE_B" my_system/store_control_B		
+	   
+	   
+	   add wave -label "others_read_request_A" my_system/others_read_request_A
+	   add wave -label "others_write_request_A" my_system/others_write_request_A
+	   add wave -label "others_read_request_B" my_system/others_read_request_B
+	   add wave -label "others_write_request_B" my_system/others_write_request_B
+	   
+	   #add wave -label "others_block_tag_A" my_system/others_block_tag_A
+	   #add wave -label "others_block_index_A" my_system/others_block_index_A
+	   #add wave -label "others_block_tag_B" my_system/others_block_tag_B
+	   
+	   add wave -label "others_block_tag_A" -radix unsigned my_system/L1A_cache_memory/others_block_tag
+	   add wave -label "others_block_index_A" -radix unsigned my_system/L1A_cache_memory/others_block_index
+	   
+	   add wave -label "others_block_tag_B" -radix unsigned my_system/L1B_cache_memory/others_block_tag
+	   add wave -label "others_block_index_B" -radix unsigned my_system/L1B_cache_memory/others_block_index
+		
+	   add wave -label "L1A cache memory" system_tb/my_system/L1A_cache_memory/L1_cache_memory
+	   add wave -label "L2 cache memory" system_tb/my_system/L2_cache_memory/L2_cache_memory	   
+	   add wave -label "L1B cache memory" system_tb/my_system/L1B_cache_memory/L1_cache_memory
+	   
+	   #add wave -label "L2_read_request" my_system/L1_cache_memory.L2_read_request
+	   #add wave -label "L2_write_request" my_system/L1_cache_memory.L2_write_request
+	   
+	   #add wave -label "L2_word_address" -radix unsigned my_system/L1_cache_memory.L2_word_address
+	   #add wave -label "L2_write_word" -radix unsigned my_system/L1_cache_memory.L2_write_word
+	   
+	   
+	   #add wave -label "MM_read_request" my_system/L2_cache_memory.MM_read_request
+       #add wave -label "MM_write_request" my_system/L2_cache_memory.MM_write_request
+	   
+	   #add wave -label "MM_word_address" -radix unsigned my_system/L2_cache_memory/MM_word_address
+	   #add wave -label "MM_write_word" -radix unsigned my_system/L2_cache_memory/MM_write_word
+	   
+	   add wave -label "RAM" my_system/my_main_memory/ram
+	   
+	   add wave -label "L1A valid" my_system/L1A_cache_memory/valid
+	   add wave -label "L1A shared" my_system/L1A_cache_memory/shared
+	   add wave -label "L1B valid" my_system/L1B_cache_memory/valid
+	   add wave -label "L1B shared" my_system/L1B_cache_memory/shared
+	   
+	   add wave -label "stack_A" my_system/riscv_core_A/data_memory/dmem
+		
+	   add wave -label "dmem_word_address_A" -radix unsigned my_system/riscv_core_A/address
+	   
+	   add wave -label "L1_load_A" my_system/load_control_A
+	   add wave -label "L1_store_A" my_system/store_control_A
+	   
+	   add wave -label "decoder_load_A" my_system/riscv_core_A/decoder_load_control
+	   add wave -label "decoder_store_A" my_system/riscv_core_A/decoder_store_control
+	   
+	   add wave -label "stack_load_A" my_system/riscv_core_A/stack_load_control
+	   add wave -label "stack_store_A" my_system/riscv_core_A/stack_store_control
+	   
+	   #add wave -label "dmem_read_word_A" -radix unsigned my_system/riscv_core_A/address
+
+		add wave -label "stack_B" my_system/riscv_core_B/data_memory/dmem
+		
+	   add wave -label "dmem_word_address_B" -radix unsigned my_system/riscv_core_B/address
+	   
+	   add wave -label "L1_load_B" my_system/load_control_B
+	   add wave -label "L1_store_B" my_system/store_control_B
+	   
+	   add wave -label "decoder_load_B" my_system/riscv_core_B/decoder_load_control
+	   add wave -label "decoder_store_B" my_system/riscv_core_B/decoder_store_control
+	   
+	   add wave -label "stack_load_B" my_system/riscv_core_B/stack_load_control
+	   add wave -label "stack_store_B" my_system/riscv_core_B/stack_store_control
+	   
+	   #add wave -label "dmem_read_word_B" -radix unsigned my_system/riscv_core_B/address
+
+
+	   add wave -label "instruction_A" my_system/riscv_core_A/instruction
+	   add wave -label "instruction_B" my_system/riscv_core_B/instruction
+		
+		
+
+#L2 cache refill debug
+
+   #add wave -label "L2 cache memory" system_tb/my_system/L2_cache_memory/L2_cache_memory
+	  
+  
+  
+  	   #add wave -label "MM_read_request" my_system/L2_cache_memory.MM_read_request
+
+	   #add wave -label "L2 refill_counter" -radix unsigned my_system/L2_cache_memory/refill_counter	
+	   #add wave -label "MM_read_word"  my_system/L2_cache_memory/MM_read_word
+
+ #run
+ #run
+ #run
+ #run
+ #run
+ #run
+  run -all
+  wave zoom full
